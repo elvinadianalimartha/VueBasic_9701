@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tebak Angka</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="vue.js"></script>
+    
+    <style>
+        body {
+            margin-top: 30px;
+        }
+
+        #play {
+            margin-top: 30px;
+        }
+        
+        /* .chance {
+            margin-inline-start: 250px;
+        } */
+
+        footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            padding: 8px;
+            font-size: 20px;
+            background-color: rgb(80, 197, 226);
+            color: white;
+            text-align: center;
+        }       
+    </style>
+</head>
+
+<body>
+    <center>
+        <h2>Ayo main tebak angka 1-10</h2>
+        <h4>Kamu punya kesempatan 3x tebak yaa! Selamat mencoba</h4> 
+        <div id="play">           
+            <div class="form-group col-md-5">
+                <input v-model="angka" type="number" class="form-control" id="inputNumber" placeholder="Masukkan angka antara 1-10..." :disabled="isDisabled()"/>  
+            </div>
+            
+            <button type="submit" @click="start(); kumpulTebakan(); counter++;" class="btn btn-primary" :disabled="isDisabled()">Tebak</button>
+
+            <span v-if = "status == 'menang'">
+                <h5>Hore! Kamu berhasil menebak angka {{ kunciJawaban }}</h5>
+                <h5>Selamat kamu menang! :D</h5>
+                <button @click="mainLagi" class="btn btn-success">Main lagi dong!</button>
+            </span>
+
+            <span v-if = "status == 'kalah'">
+                <h5>Kesempatanmu habis & kamu belum berhasil menebak angka {{ kunciJawaban }}</h5>
+                <h5>Jadi, mon maap kamu kalah! :(</h5>
+                <button @click="mainLagi" class="btn btn-danger">Nggak terima! Mau main lagi!</button>
+            </span>
+
+            <span v-if = "status == 'kekecilan'">
+                <h5>Tebakanmu masih kekecilan!</h5>
+                <p class="chance">Kamu masih punya {{ 3-counter }} kesempatan lagi</p>
+                <button @click="tebakLagi" class="btn btn-warning">Tebak lagi!</button>
+            </span>
+
+            <span v-if = "status == 'kebesaran'">
+                <h5>Tebakanmu kebesaran!</h5>
+                <p class="chance">Kamu masih punya {{ 3-counter }} kesempatan lagi</p>
+                <button @click="tebakLagi" class="btn btn-warning">Tebak lagi!</button>
+            </span>
+
+            <footer>
+                <h5>{{ elvina.nama }} | {{ elvina.npm }} | {{ elvina.kelas }}</h5>
+            </footer>
+        </div>
+    </center>
+</body>
+
+<script>
+    new Vue({
+        el: "#play",
+
+        data: {
+            angka: "",
+            kunciJawaban: Math.floor((Math.random() * 10) + 1),
+            counter: 0,
+            status: "",
+
+            elvina: {
+                nama: "Elvina",
+                npm: 180709701,
+                kelas: "D"
+            }
+        },
+        
+        methods: {
+            start() {
+                console.log(this.kunciJawaban);
+            },
+
+            kumpulTebakan() {
+                if(this.angka >=1 && this.angka <= 10) {
+                    if (this.angka == this.kunciJawaban) {
+                        this.status = "menang";
+                    } else {
+                        if (this.counter == 2) {
+                            this.status = "kalah";
+                        } else {
+                            if (this.angka < this.kunciJawaban) {
+                                this.status = "kekecilan";
+                            } else if (this.angka > this.kunciJawaban) {
+                                this.status = "kebesaran";
+                            }
+                        }
+                    }
+                } else {
+                    alert("Angka harus antara 1-10!");
+                    this.angka = "";
+                    this.counter--;
+                }
+            },
+
+            isDisabled() {
+                if(this.status == "kalah" || this.status == "menang" || this.status == "kekecilan" || this.status == "kebesaran"){
+                    return true;
+                } else {
+                    return false;
+                }  
+            },
+
+            tebakLagi() {
+                this.status = "tebakLagi";
+            },
+
+            mainLagi() {
+                location.reload();
+            }
+        }
+    })
+</script>
+</html>
