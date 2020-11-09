@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style_tugas.css">
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <h1 class="title">To Do List</h1>
+    
+    <div id="app">
+        <div class="toDoListCard">
+            <span v-if="toDoList.length > 0">
+                <div class="card" v-for="(todo, index) in toDoList" :key="index">
+                    <div class="card-body todo">  
+                        <i class="fa fa-trash" @click="deleteToDo(index)"></i>
+    
+                        <span v-if="todo.prioritasToDo == 'Penting'">
+                            <p class="alert alert-danger">{{ todo.prioritasToDo }}</p>
+                        </span>
+    
+                        <span v-else-if="todo.prioritasToDo == 'Biasa'">
+                            <p class="alert alert-primary">{{ todo.prioritasToDo }}</p>
+                        </span>
+    
+                        <span v-else-if="todo.prioritasToDo == 'Tidak Penting'">
+                            <p class="alert alert-success">{{ todo.prioritasToDo }}</p>
+                        </span>
+    
+                        <h2>{{ todo.namaToDo }}</h2>
+                        <p>{{ todo.catatan }}</p>
+                    </div>
+                </div>
+            </span>
+        </div>
+
+        <div class="formActivityCard">
+            <div class="card">
+                <div class="card-body">
+                    <form>
+                        <div class="form-group col-md-12">
+                            <label for="inputToDo" class="font-weight-bold">Apa yang mau kamu kerjakan?</label>
+                            <input v-model="todo.namaToDo" type="text" class="form-control" id="inputToDo" placeholder="Masukkan rencana kegiatanmu...">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="selectPriority" class="font-weight-bold">Penting gak?</label>
+                            <select v-model="todo.prioritasToDo" class="form-control" id="selectPriority">
+                                <option>Penting</option>
+                                <option>Biasa</option>
+                                <option>Tidak Penting</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="areaNote" class="font-weight-bold">Ada catatan penting?</label>
+                            <textarea v-model="todo.catatan" class="form-control" id="areaNote" rows="3" placeholder="Masukkan catatanmu..."></textarea>
+                        </div>
+                    </form>
+                    <button @click="resetToDo()" class="btn btn-danger">Reset</button>
+                    <button @click="addToDo()" class="btn btn-primary">Simpan</button>
+                </div> 
+            </div>
+        </div>
+
+        <footer>
+            <h5>{{ elvina.nama }} | {{ elvina.npm }} | {{ elvina.kelas }}</h5>
+        </footer>
+
+    </div>
+</body>
+
+<script>
+    new Vue({
+        el: "#app",
+
+        data: {
+            toDoList: [],
+
+            todo: {
+                namaToDo: "",
+                prioritasToDo: "",
+                catatan: ""
+            },
+
+            elvina: {
+                nama: "Elvina",
+                npm: 180709701,
+                kelas: "D"
+            }
+        },
+
+        methods: {
+            resetToDo() {
+                this.todo = {
+                    namaToDo: "",
+                    prioritasToDo: "",
+                    catatan: ""
+                };
+            },
+
+            addToDo() {
+                if(!this.todo.namaToDo && !this.todo.prioritasToDo) {
+                    alert("Sebelum disimpan, nama todo & prioritasnya dipilih dulu kuy!");
+                } else if(!this.todo.namaToDo) {
+                    alert("Sebelum disimpan, nama to do diisi dulu kuy!")
+                } else if(!this.todo.prioritasToDo) {
+                    alert("Sebelum disimpan, prioritasnya dipilih dulu kuy!"); 
+                } else if(this.todo.namaToDo && this.todo.prioritasToDo) {
+                    this.toDoList.push(this.todo); 
+                    this.resetToDo();
+                }
+            },
+
+            deleteToDo(index) {
+                this.toDoList.splice(index, 1);
+            }
+        }
+    })
+</script>
+</html>

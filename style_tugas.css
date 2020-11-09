@@ -1,0 +1,54 @@
+body {
+    background-image: linear-gradient(to right, #B3FFAB,#12FFF7);
+}
+
+.title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.card {
+    width: 40rem;
+    margin: 0 auto; 
+    float: none; 
+    margin-bottom: 10px; 
+}
+
+footer {
+    position: relative;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 8px;
+    font-size: 18px;
+    text-align: center;
+} 
+
+.fa-trash {
+    color: #D2D2D2;
+    font-size: 20px;
+    float: right;
+    margin-right: 8px;
+}  
+
+.alert {
+    display: inline-block;
+    padding: 6px;
+    font-size: 13px;
+    font-weight: bold;
+} 
+
+button, .card-body.todo{
+    margin-left: 15px;
+}
+
+.toDoListCard {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 40rem;
+    margin: 0 auto; 
+    float: none; 
+    margin-bottom: 10px; 
+    max-height: 480px;
+}
